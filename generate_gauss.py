@@ -117,13 +117,13 @@ def plot_peaks(dfs, labels, colors, separate=True, combined=False, max_val=None)
             plt.show()
 
 
-# Example 1: one peak - large
+# -----------------Example 1: one peak - large-----------------
 peaks = {
     1: [0, 1.4, 15, 2.5],
 }
 large = peak_maker(peaks)
 
-# Example 2: one peak - small
+# -----------------Example 2: one peak - small-----------------
 peaks = {
     1: [0, 0.6, 15, 2.5],
 }
@@ -142,3 +142,42 @@ merged_df = functools.reduce(lambda left, right: pd.merge(
     left, right, on='x', how='outer', suffixes=['_small', '_large']), [small, large])
 merged_df.to_csv('simulated_data.csv')
 
+# -----------------Example 3: mixed peaks-----------------
+
+peaks = {
+    1: [0, 1.4, 15, 2.5],
+    2: [0, 0.6, 23, 1.0],
+    3: [0, 1.0, 40, 0.5],
+}
+threepeaks = peak_maker(peaks)
+
+# Generate plots
+dfs = {
+    'combined': [threepeaks],
+}
+ylabels = ['Density']
+colors = ['grey']
+plot_peaks(dfs, ylabels, colors, max_val=1.5)
+
+
+# -----------------Example 4: combined plot dual axes-----------------
+peaks = {
+    1: [0, 1.4, 15, 2.5],
+    2: [0, 0.6, 27, 1],
+    3: [0, 1, 40, 2],
+}
+elution = peak_maker(peaks)
+peaks = {
+    3: [0, 0.1, 26.8, 0.6],
+    4: [0, 0.4, 27, 0.5],
+    5: [0, 0.2, 27.2, 1.0],
+}
+activity = peak_maker(peaks, precision=1, noise=0.01)
+
+# Generate plots
+dfs = {
+    'example_4': [elution, activity],
+}
+ylabels = ['Absorbance ($A_{280 nm}$)', 'Fluorescence @ 605 nm (A.U.)']
+colors = ['grey', 'darkorange']
+plot_peaks(dfs, ylabels, colors, combined=True, max_val=1.4)
