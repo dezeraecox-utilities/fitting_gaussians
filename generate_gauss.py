@@ -139,5 +139,7 @@ colors = ['grey', 'orange']
 plot_peaks(dfs, ylabels, colors, combined=True, max_val=1.5)
 
 # Save generated data
-merged_df = functools.reduce(lambda left, right: pd.merge(left, right, on='x', how='outer'), [small, large])
+merged_df = functools.reduce(lambda left, right: pd.merge(
+    left, right, on='x', how='outer', suffixes=['_small', '_large']), [small, large])
 merged_df.to_csv('simulated_data.csv')
+
