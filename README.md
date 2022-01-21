@@ -35,7 +35,7 @@ where, in this case SD=```sigma```.
 
 So - long story short, the *amplitude* parameter that you are fitting using lmfit's gaussian model is in fact the area (composed of the sigma and height, and assuming the baseline is at 0). The reason you were getting strange results with your code is you were using this already-transformed parameter and transforming it *again* using the area formula. In your example, I'm guessing the ```amplitudes``` are quite similar between the two peaks, but the ```sigma``` of the green peak will be HUGE (it's very broad) while the ```sigma``` of the blue peak comparatively smaller. What you end up with is multiplying the area of the green peak by LOTS and the blue peak by not so much - resulting in the apparently large green peak area compared to the blue.
 
-Now, just in case you don't believe me (totally your perogative!) then I ran through an example where I fit some simulated data with python and derived the area by  fitting and integrating, and also compared it with an online calculator by reverse-engineering the fitted gaussian model. You can find and play with the code [here](https://github.com/dezeraecox-utilities/fitting_gaussians)
+Now, just in case you don't believe me (totally your perogative!) then I ran through an example where I fit some simulated data with python and derived the area by  fitting and integrating, and also compared it with an online calculator by reverse-engineering the fitted gaussian model. You can play with the code [here](https://github.com/dezeraecox-utilities/fitting_gaussians) or see a summary [here](https://github.com/dezeraecox-utilities/fitting_gaussians/blob/master/notebooks/integration_example_NM.pdf).
 
 Here is my simulated data fitted to an lmfit gaussian model:
 
