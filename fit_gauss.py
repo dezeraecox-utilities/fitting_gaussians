@@ -12,7 +12,7 @@ from loguru import logger
 
 logger.info('Import OK')
 
-input_path = 'simulated_data.csv'
+input_path = 'results/simulated_data.csv'
 
 # Read in simulated data
 data = pd.read_csv(input_path)
