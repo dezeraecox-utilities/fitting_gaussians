@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from lmfit import models
 import scipy.integrate as integrate
+import functools
+import math
 
 from loguru import logger
 
@@ -77,3 +79,40 @@ sns.lineplot(
     color='royalblue')
 plt.show()
 
+
+# ----------------------Calculate area----------------------
+
+# define limits between which you want to know the area under the curve
+lower_bound = 0
+upper_bound = 50
+
+# Define the gaussian model equation in machine-readable format
+def generic_gauss(A, centre, sigma, x): #note partial below is positional, so x MUST go last here, although normally it would be first
+    return (A / (sigma * np.sqrt((2*math.pi)))) * np.exp((-(x-centre)**2) / (2*sigma**2))
+
+# A 'wrapper' function, which produces a partially complete version of the gauss func leaving only x to be specified
+def create_gauss(A, centre, sigma):
+    return functools.partial(generic_gauss, A, centre, sigma)
+
+
+# Create a partially-filled version of the gaussian function using the fitted paramters
+small_func = create_gauss(
+    A=output_small.params['amplitude'].value,
+    centre=output_small.params['center'].value,
+    sigma=output_small.params['sigma'].value,
+    )
+
+# calculate integral
+integral, error = integrate.quad(small_func, lower_bound, upper_bound)
+
+large_func = create_gauss(
+    A=output_large.params['amplitude'].value,
+    centre=output_large.params['center'].value,
+    sigma=output_large.params['sigma'].value,
+)
+
+# calculate integral
+integral, error = integrate.quad(small_func, lower_bound, upper_bound)
+logger.info(f'Area under curve small is {integral}')
+integral, error = integrate.quad(large_func, lower_bound, upper_bound)
+logger.info(f'Area under the large curve is {integral}')
