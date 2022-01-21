@@ -180,4 +180,4 @@ dfs = {
 }
 ylabels = ['Absorbance ($A_{280 nm}$)', 'Fluorescence @ 605 nm (A.U.)']
 colors = ['grey', 'darkorange']
-plot_peaks(dfs, ylabels, colors, combined=True, max_val=1.4)
+plot_peaks(dfs, ylabels, colors, combined=True, max_val=1.6)
