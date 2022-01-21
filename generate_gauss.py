@@ -12,8 +12,7 @@ from GEN_Utils import FileHandling
 
 logger.info('Import OK')
 
-input_path = 'worksheet_materials/Book1.xlsx'
-output_folder = 'worksheet_materials/'
+output_folder = 'results/'
 
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
