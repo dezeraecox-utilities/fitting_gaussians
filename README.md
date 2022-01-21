@@ -1,4 +1,3 @@
-Ok - I think maybe there is a little bit of disconnect between what you are fitting, and what you *think* you are fitting :slightly_smiling_face: hopefully an easy fix! Now, fair warning: there is a lot of info incoming, but bear with me - hopefully it will help clarify!
 
 First, let's start with the equation that you are fitting to. This is defined in the lmfit docs:
 
@@ -36,7 +35,7 @@ where, in this case SD=```sigma```.
 
 So - long story short, the *amplitude* parameter that you are fitting using lmfit's gaussian model is in fact the area (composed of the sigma and height, and assuming the baseline is at 0). The reason you were getting strange results with your code is you were using this already-transformed parameter and transforming it *again* using the area formula. In your example, I'm guessing the ```amplitudes``` are quite similar between the two peaks, but the ```sigma``` of the green peak will be HUGE (it's very broad) while the ```sigma``` of the blue peak comparatively smaller. What you end up with is multiplying the area of the green peak by LOTS and the blue peak by not so much - resulting in the apparently large green peak area compared to the blue.
 
-Now, just in case you don't believe me (totally your perogative!) then I ran through an example where I fit some simulated data with python and derived the area by  fitting and integrating, and also compared it with an online calculator by reverse-engineering the fitted gaussian model.
+Now, just in case you don't believe me (totally your perogative!) then I ran through an example where I fit some simulated data with python and derived the area by  fitting and integrating, and also compared it with an online calculator by reverse-engineering the fitted gaussian model. You can find and play with the code [here](https://github.com/dezeraecox-utilities/fitting_gaussians)
 
 Here is my simulated data fitted to an lmfit gaussian model:
 
@@ -58,4 +57,3 @@ And just to confirm it is actually calculating the curve we think it is:
 
 ![](images/2022-01-21-13-15-40.png)
 
-Phew! What a journey. Hopefully this helps clarify, let me know what you think and of course if anything isn't clear :)
